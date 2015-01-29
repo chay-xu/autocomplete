@@ -39,7 +39,7 @@
 
     function count( object ){
         var len = 0,
-            type = toString.call( object );
+            type = Object.prototype.toString.call( object );
 
         if( type === '[object Array]' || type === '[object String]' ){
             return object.length;
@@ -82,17 +82,40 @@
             _self.$ipt.before( this.$warp );
         
             _self.$ipt.focus(function( e ){
+
                 var val = _self.$ipt.val();
-console.log(_self.isEmpty);
+
                 if( val !== '' && !_self.isEmpty ){
                     _self.activate();
                 }
+
             });
         
             _self.$ipt.blur(function( e ){
-            
-                _self.hide();   
+
+                _self.hide();
             });
+
+            // window capture focus
+            // if( !-[1,] ){
+            //     $( window ).bind( 'releaseCapture', function( e ){
+            //         // 禁止失去焦点   
+            //         e.preventDefault();
+            //         e.stopPropagation();
+
+            //         _self.$ipt.blur();
+            //         console.log(11100)
+            //     });
+            // }else{
+            //     $( window ).bind( 'blur', function( e ){
+            //         // 禁止失去焦点   
+            //         e.preventDefault();
+            //         e.stopPropagation(); 
+
+            //         _self.$ipt.blur();
+            //         console.log(11100)
+            //     });
+            // }
             
             _self.bindKeyDown();
             _self.bindMouse();  
@@ -109,7 +132,7 @@ console.log(_self.isEmpty);
                     return;
                 }
 
-                console.log( keycode );
+                // console.log( keycode );
                 switch( keycode ){
                     case 38:
                         e.preventDefault();
@@ -189,7 +212,7 @@ console.log(_self.isEmpty);
                 // 禁止失去焦点   
                 e.preventDefault();
                 e.stopPropagation();
-            
+         
                 switch( type ){
                     case 'mouseover':
                         $( 'li', _self.$item ).eq( _self.index ).removeClass( _self.selectClass );
@@ -221,8 +244,10 @@ console.log(_self.isEmpty);
         hide: function(){
             var _self = this;
             
+            clearTimeout( _self.keyTimeout );
             // before removing the hidden li className
             $( 'li', _self.$item ).eq( _self.index ).removeClass( _self.selectClass );
+            // _self.$ipt.blur();
 
             _self.$warp.hide();
             _self.isHide = true;
@@ -249,7 +274,7 @@ console.log(_self.isEmpty);
 
             // input值为空，上一次数据获取也为空
             if( val == '' && _self.isEmpty ) return;
-            
+
             // input值不为空，上一次数据也不为空，上一次输入和现在值一样
             if( key !== '' && !_self.isEmpty && _self.lastKey == key ){
                 _self.show();

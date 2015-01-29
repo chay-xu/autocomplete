@@ -40,7 +40,7 @@ gulp.task('connect', function () {
     root: './',
     livereload: true,
     port: 8080,
-    fallback: './serverlog.txt',
+    fallback: './log.txt',
     middleware: function(connect, options){
       // var str = '';
       // for(var i in req){

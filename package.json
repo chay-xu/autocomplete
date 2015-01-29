@@ -1,0 +1,22 @@
+{
+  "name": "autoComplete",
+  "version": "1.0.0",
+  "description": "autocomplete",
+  "main": "autocomplete.js",
+  "scripts": {
+    "test": "gulp server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/xu8511831/autocomplete.git"
+  },
+  "keywords": [
+    "autocomplete"
+  ],
+  "author": "bigwind",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xu8511831/autocomplete/issues"
+  },
+  "homepage": "https://github.com/xu8511831/autocomplete"
+}

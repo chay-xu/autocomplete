@@ -2,8 +2,8 @@
 <html style="">
 <head>
 	<title>autocomplete</title>
-	<link rel="stylesheet" type="text/css" href="autocomplete.css">
-	<link rel="stylesheet" type="text/css" href="../src/jquery.autocomplete.css">
+	<link rel="stylesheet" type="text/css" href="../src/autocomplete.css">
+	<link rel="stylesheet" type="text/css" href="../test/jquery.autocomplete.css">
 </head>
 <body style="height: 1200px; margin:0;">
 	<input type="input" id="search-autocomplete" value="">
@@ -15,17 +15,34 @@
 	<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
 	<script type="text/javascript" src="fastpl-min.js" ></script>
 	<script type="text/javascript" src="../src/autocomplete.js" id="prama-s"></script>
-	<script type="text/javascript" src="../src/jquery.autocomplete.js"></script>
+	<script type="text/javascript" src="../test/jquery.autocomplete.js"></script>
 	<script type="text/javascript">
 		$( document ).ready(function(){
 			new AutoComplete({
+				// filter: function(data, key){
+				// 	if( !key ) return;
+
+			 //        var arr = [];
+
+			 //        for (var i = 0; i < data.length; i++) {
+			 //            var val = data[i];
+			            
+			 //            key = key.toUpperCase();
+			 //            if( val.indexOf( key ) !== -1 ){
+			 //                arr.push( data[i] );
+			 //            }
+			 //        };
+
+			 //        return arr;
+				// },
 				ajax:{
 					url: '/user/info',
 					key: 'wd'
 				},
-			    template: '{{for data}}<li data-val="${$value}">${$value}</li>{{/for}}'
+				// data: ['111','1123','aaa','AA','wqA','QQAA','说我'],
+			    template: '{{for $data}}<li data-val="${$value}">${$value}</li>{{/for}}'
 			});
-console.log();
+// console.log();
 			$("#ac7").autocomplete({
 		        data: [
 		        	['aa'],
@@ -41,7 +58,6 @@ console.log();
 		            var f = filter.toLowerCase();
 		            var p = s.indexOf(f);
 
-		            console.log(11);
 		            if (p >= 0) {
 		                // Start of text or after a whitespace
 		                return p === 0 || !$.trim(s.substr(p - 1, 1));

@@ -21,7 +21,7 @@
         toChar: null,       // toUpperCase,toLowerCase
         selectClass: 'search-hint-select',
         highlight: '<strong style="color:red;">$&</strong>',
-        template: '{{for data}}<li data-val="${$value}">${$value | highlight}</li>{{/for}}',
+        template: '{{for data}}<li data-val="${v}">${=v | highlight}</li>{{/for}}',
         warpper: '<div class="search-hint" id="search-hint">' + 
             '<iframe frameborder="0" src="about:blank" class="search-hint-shade"></iframe>' +
             '<div class="search-txt">检索到的相关结果：</div>' +
@@ -293,21 +293,21 @@
                     }
                 })
             }else{
-                _self.search( _self.opts.data, key )
+                _self.search( _self.opts.filter( _self.opts.data, key ), key )
             }
         },
         search: function( data, key ){
             var _self = this;
 
-            if( count( data.data ) == 0 ){
-                _self.isEmpty = true;
-                _self.$item.html( '' );
-                _self.hide();
-            }else{
+            // if( count( data ) == 0 ){
+            //     _self.isEmpty = true;
+            //     _self.$item.html( '' );
+            //     _self.hide();
+            // }else{
                 _self.isEmpty = false;                          
                 _self.renderHtml( data, key );
                 _self.show();
-            }
+            // }
             _self.lastKey = key;
             _self.data = data;
         },
@@ -316,11 +316,12 @@
             
             fasTpl.tools('highlight', function( val ){
                 var highlightReg = new RegExp( key, 'gi');
-                
+            
                 return val.replace( highlightReg, _self.opts.highlight )
             })
-            
+        
             var html = fasTpl( _self.opts.template, data );
+console.log(html=='')    
             _self.$item.html( html );
         }
     }

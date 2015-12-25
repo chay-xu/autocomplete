@@ -13,34 +13,35 @@
     </form>
 
 	<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
-	<script type="text/javascript" src="fastpl-min.js" ></script>
+	<!-- // <script type="text/javascript" src="fastpl-min.js" ></script> -->
+	<script type="text/javascript" src="https://rawgithub.com/xu8511831/fastpl/master/build/fastpl-plus.min.js"></script>
 	<script type="text/javascript" src="../src/autocomplete.js" id="prama-s"></script>
 	<!-- // <script type="text/javascript" src="../test/jquery.autocomplete.js"></script> -->
 	<script type="text/javascript">
 		$( document ).ready(function(){
 			new AutoComplete({
-				// filter: function(data, key){
-				// 	if( !key ) return;
+				filter: function(data, key){
+					if( !key ) return;
 
-			 //        var arr = [];
+			        var arr = [];
 
-			 //        for (var i = 0; i < data.length; i++) {
-			 //            var val = data[i];
+			        for (var i = 0; i < data.length; i++) {
+			            var val = data[i];
 			            
-			 //            key = key.toUpperCase();
-			 //            if( val.indexOf( key ) !== -1 ){
-			 //                arr.push( data[i] );
-			 //            }
-			 //        };
+			            key = key.toUpperCase();
+			            if( val.indexOf( key ) !== -1 ){
+			                arr.push( data[i] );
+			            }
+			        };
 
-			 //        return arr;
-				// },
-				ajax:{
-					url: '/user/info',
-					key: 'wd'
+			        return arr;
 				},
-				// data: ['111','1123','aaa','AA','wqA','QQAA','说我'],
-			    template: '{{for $data.data}}<li data-val="${$value}">${$value}</li>{{/for}}'
+				// ajax:{
+				// 	url: '/user/info',
+				// 	key: 'wd'
+				// },
+				data: ['111','1123','aaa','AA','wqA','QQAA','说我','R是吗'],
+			    template: '{{for _data}}<li data-val="${v}">${=v|highlight}</li>{{/for}}'
 			});
 // console.log();
 			// $("#ac7").autocomplete({
@@ -65,6 +66,41 @@
 		 //            return false;
 		 //        }
 		 //    });
+				var MOD = 65521;
+
+				// adler32 is not cryptographically strong, and is only used to sanity check that
+				// markup generated on the server matches the markup generated on the client.
+				// This implementation (a modified version of the SheetJS version) has been optimized
+				// for our use case, at the expense of conforming to the adler32 specification
+				// for non-ascii inputs.
+				function adler32(data) {
+				  var a = 1;
+				  var b = 0;
+				  var i = 0;
+				  var l = data.length;
+				  var m = l & ~0x3;
+				  while (i < m) {
+				    for (; i < Math.min(i + 4096, m); i += 4) {
+				      b += (
+				        (a += data.charCodeAt(i)) +
+				        (a += data.charCodeAt(i + 1)) +
+				        (a += data.charCodeAt(i + 2)) +
+				        (a += data.charCodeAt(i + 3))
+				      );
+				    }
+				    a %= MOD;
+				    b %= MOD;
+				  }
+				  for (; i < l; i++) {
+				    b += (a += data.charCodeAt(i));
+				  }
+				  a %= MOD;
+				  b %= MOD;
+				  return a | (b << 16);
+				}
+
+				console.log( adler32('<div>阿双方的发生的十分大</div') );
+				console.log( adler32('<div>阿双方的发生的十分大1</div') );
 		})
 	</script>
 </body>
